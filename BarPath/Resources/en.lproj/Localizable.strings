@@ -1,0 +1,176 @@
+/* BarPath - English Localizable Strings */
+
+/* ──────────────────────────────────────────────
+   Navigation
+   ────────────────────────────────────────────── */
+
+"nav_home" = "Home";
+"nav_record" = "Record";
+"nav_result" = "Result";
+"nav_history" = "History";
+"nav_settings" = "Settings";
+
+/* ──────────────────────────────────────────────
+   Lift Types
+   ────────────────────────────────────────────── */
+
+"lift_type_squat" = "Squat";
+"lift_type_bench_press" = "Bench Press";
+"lift_type_deadlift" = "Deadlift";
+"lift_type_overhead_press" = "Overhead Press";
+"lift_type_clean" = "Clean";
+"lift_type_snatch" = "Snatch";
+"lift_type_row" = "Row";
+"lift_type_other" = "Other";
+
+/* ──────────────────────────────────────────────
+   Metrics
+   ────────────────────────────────────────────── */
+
+"metric_peak_velocity" = "Peak Velocity";
+"metric_avg_velocity" = "Avg Velocity";
+"metric_velocity" = "Velocity";
+"metric_displacement" = "Displacement";
+"metric_vertical_displacement" = "Vertical Displacement";
+"metric_total_displacement" = "Total Displacement";
+"metric_horizontal_drift" = "Horizontal Drift";
+"metric_max_drift" = "Max Drift";
+"metric_avg_drift" = "Avg Drift";
+"metric_consistency" = "Consistency";
+"metric_duration" = "Duration";
+"metric_avg_rep_duration" = "Avg Rep Duration";
+"metric_reps" = "Reps";
+"metric_rep_count" = "Rep Count";
+"metric_concentric_time" = "Concentric Time";
+"metric_eccentric_time" = "Eccentric Time";
+
+/* ──────────────────────────────────────────────
+   Actions
+   ────────────────────────────────────────────── */
+
+"action_record" = "Record";
+"action_stop" = "Stop";
+"action_analyze" = "Analyze";
+"action_export" = "Export";
+"action_share" = "Share";
+"action_delete" = "Delete";
+"action_cancel" = "Cancel";
+"action_save" = "Save";
+"action_done" = "Done";
+"action_retry" = "Retry";
+"action_start_recording" = "Start Recording";
+"action_stop_recording" = "Stop Recording";
+"action_select_video" = "Select Video";
+"action_import_video" = "Import Video";
+"action_new_analysis" = "New Analysis";
+"action_view_details" = "View Details";
+"action_delete_analysis" = "Delete Analysis";
+"action_confirm_delete" = "Are you sure you want to delete this analysis?";
+
+/* ──────────────────────────────────────────────
+   Status
+   ────────────────────────────────────────────── */
+
+"status_analyzing" = "Analyzing...";
+"status_detecting_reps" = "Detecting reps...";
+"status_calculating" = "Calculating metrics...";
+"status_processing_video" = "Processing video...";
+"status_extracting_frames" = "Extracting frames...";
+"status_detecting_pose" = "Detecting pose...";
+"status_smoothing_path" = "Smoothing path...";
+"status_complete" = "Analysis Complete";
+"status_error" = "Error";
+"status_no_pose_detected" = "No pose detected";
+"status_recording" = "Recording...";
+"status_ready" = "Ready";
+"status_no_reps_detected" = "No reps detected";
+
+/* ──────────────────────────────────────────────
+   Recording
+   ────────────────────────────────────────────── */
+
+"recording_fps_30" = "30 FPS";
+"recording_fps_60" = "60 FPS";
+"recording_max_duration_reached" = "Maximum recording duration reached";
+"recording_position_camera" = "Position the camera to capture the full range of motion";
+"recording_tip" = "Film from the side for best results";
+
+/* ──────────────────────────────────────────────
+   Results
+   ────────────────────────────────────────────── */
+
+"result_title" = "Analysis Results";
+"result_summary" = "Summary";
+"result_rep_details" = "Rep Details";
+"result_bar_path" = "Bar Path";
+"result_rep_number" = "Rep %d";
+"result_no_data" = "No analysis data available";
+"result_notes_placeholder" = "Add notes...";
+"result_notes" = "Notes";
+
+/* ──────────────────────────────────────────────
+   History
+   ────────────────────────────────────────────── */
+
+"history_title" = "History";
+"history_empty" = "No analyses yet";
+"history_empty_subtitle" = "Record your first lift to see it here";
+"history_recent" = "Recent Analyses";
+"history_delete_confirm" = "Delete this analysis?";
+
+/* ──────────────────────────────────────────────
+   Settings
+   ────────────────────────────────────────────── */
+
+"settings_title" = "Settings";
+"settings_preferred_lift" = "Preferred Lift Type";
+"settings_recording_fps" = "Recording FPS";
+"settings_show_velocity_overlay" = "Show Velocity Overlay";
+"settings_show_drift_lines" = "Show Drift Lines";
+"settings_auto_detect_reps" = "Auto-Detect Reps";
+"settings_path_color" = "Path Color Mode";
+"settings_calibration" = "Calibration";
+"settings_calibration_description" = "Calibrate to convert to real-world measurements";
+"settings_about" = "About BarPath";
+"settings_version" = "Version";
+"settings_reset" = "Reset Settings";
+"settings_reset_confirm" = "Reset all settings to defaults?";
+
+/* ──────────────────────────────────────────────
+   Path Color Options
+   ────────────────────────────────────────────── */
+
+"path_color_velocity" = "Velocity";
+"path_color_fixed" = "Fixed";
+"path_color_phase" = "Phase";
+
+/* ──────────────────────────────────────────────
+   Calibration
+   ────────────────────────────────────────────── */
+
+"calibration_title" = "Calibration";
+"calibration_plate_size" = "Plate Size";
+"calibration_user_height" = "User Height";
+"calibration_manual" = "Manual";
+"calibration_not_set" = "Not calibrated";
+"calibration_set" = "Calibrated";
+
+/* ──────────────────────────────────────────────
+   Errors
+   ────────────────────────────────────────────── */
+
+"error_camera_unavailable" = "Camera is not available";
+"error_camera_permission" = "Camera access is required to record lifts";
+"error_video_processing" = "Failed to process video";
+"error_analysis_failed" = "Analysis failed";
+"error_save_failed" = "Failed to save analysis";
+"error_load_failed" = "Failed to load analysis";
+"error_generic" = "Something went wrong";
+
+/* ──────────────────────────────────────────────
+   Velocity Labels
+   ────────────────────────────────────────────── */
+
+"velocity_slow" = "Slow";
+"velocity_medium" = "Medium";
+"velocity_fast" = "Fast";

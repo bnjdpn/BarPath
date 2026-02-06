@@ -1,0 +1,92 @@
+# Xcode
+xcuserdata/
+
+## Xcode Patch
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcworkspace/contents.xcworkspacedata
+**/xcshareddata/WorkspaceSettings.xcsettings
+
+## Build generated
+build/
+DerivedData/
+*.xcresult
+*.xcarchive
+
+## Various settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+
+## Other
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+*.xcuserstate
+
+## Obj-C/Swift specific
+*.hmap
+
+## App packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Swift Package Manager
+.build/
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/Build/
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/screenshots/screenshots.html
+fastlane/test_output
+fastlane/asc_api_key.json
+fastlane/README.md
+
+# macOS
+.DS_Store
+
+# Claude Code
+.claude/settings.local.json
+.claude/plans/
+.claude.local.md
+app_store_screenshots/
+
+# Backup files
+*.backup
+*.bak
+*.log
+*.swp
+*.tmp
+
+# SPM (Swift Package Manager)
+.swiftpm/
+Package.resolved
+
+# Xcode Workspace
+*.xcworkspace/xcuserdata/
+*.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+
+# IDEs/Editors
+.idea/
+.vscode/
+
+# Env files
+.env

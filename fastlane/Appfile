@@ -1,0 +1,4 @@
+app_identifier("app.barpath")
+team_id("767SX34A7Z")
+
+json_key_file("fastlane/asc_api_key.json")

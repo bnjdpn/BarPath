@@ -1,0 +1,84 @@
+name: BarPath
+options:
+  bundleIdPrefix: app
+  deploymentTarget:
+    iOS: "26.0"
+  xcodeVersion: "26.3"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+  developmentLanguage: en
+
+settings:
+  base:
+    DEVELOPMENT_TEAM: 767SX34A7Z
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    CODE_SIGN_STYLE: Automatic
+    ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: YES
+    LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+    SWIFT_EMIT_LOC_STRINGS: YES
+    ENABLE_PREVIEWS: YES
+
+targets:
+  BarPath:
+    type: application
+    platform: iOS
+    sources:
+      - path: BarPath
+        excludes:
+          - "**/.DS_Store"
+    resources:
+      - path: BarPath/Assets.xcassets
+      - path: BarPath/Resources
+      - path: BarPath/PrivacyInfo.xcprivacy
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.barpath
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: 1
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        INFOPLIST_KEY_NSCameraUsageDescription: "BarPath needs camera access to record your lifts and track bar path in real-time."
+        INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "BarPath needs photo library access to import videos of your lifts for analysis."
+        INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: "BarPath needs photo library access to save analyzed videos with bar path overlay."
+        TARGETED_DEVICE_FAMILY: "1,2"
+    dependencies: []
+
+  BarPathTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: BarPathTests
+        excludes:
+          - "**/.DS_Store"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.barpath.tests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/BarPath.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BarPath"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+    dependencies:
+      - target: BarPath
+
+schemes:
+  BarPath:
+    build:
+      targets:
+        BarPath: all
+        BarPathTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - BarPathTests
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release

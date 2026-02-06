@@ -1,0 +1,176 @@
+/* BarPath - French Localizable Strings */
+
+/* ──────────────────────────────────────────────
+   Navigation
+   ────────────────────────────────────────────── */
+
+"nav_home" = "Accueil";
+"nav_record" = "Enregistrer";
+"nav_result" = "Résultat";
+"nav_history" = "Historique";
+"nav_settings" = "Réglages";
+
+/* ──────────────────────────────────────────────
+   Lift Types
+   ────────────────────────────────────────────── */
+
+"lift_type_squat" = "Squat";
+"lift_type_bench_press" = "Développé couché";
+"lift_type_deadlift" = "Soulevé de terre";
+"lift_type_overhead_press" = "Développé militaire";
+"lift_type_clean" = "Épaulé";
+"lift_type_snatch" = "Arraché";
+"lift_type_row" = "Rowing";
+"lift_type_other" = "Autre";
+
+/* ──────────────────────────────────────────────
+   Metrics
+   ────────────────────────────────────────────── */
+
+"metric_peak_velocity" = "Vitesse max";
+"metric_avg_velocity" = "Vitesse moy.";
+"metric_velocity" = "Vitesse";
+"metric_displacement" = "Déplacement";
+"metric_vertical_displacement" = "Déplacement vertical";
+"metric_total_displacement" = "Déplacement total";
+"metric_horizontal_drift" = "Dérive horizontale";
+"metric_max_drift" = "Dérive max";
+"metric_avg_drift" = "Dérive moy.";
+"metric_consistency" = "Régularité";
+"metric_duration" = "Durée";
+"metric_avg_rep_duration" = "Durée moy. par rep";
+"metric_reps" = "Reps";
+"metric_rep_count" = "Nombre de reps";
+"metric_concentric_time" = "Temps concentrique";
+"metric_eccentric_time" = "Temps excentrique";
+
+/* ──────────────────────────────────────────────
+   Actions
+   ────────────────────────────────────────────── */
+
+"action_record" = "Enregistrer";
+"action_stop" = "Arrêter";
+"action_analyze" = "Analyser";
+"action_export" = "Exporter";
+"action_share" = "Partager";
+"action_delete" = "Supprimer";
+"action_cancel" = "Annuler";
+"action_save" = "Enregistrer";
+"action_done" = "Terminé";
+"action_retry" = "Réessayer";
+"action_start_recording" = "Démarrer l'enregistrement";
+"action_stop_recording" = "Arrêter l'enregistrement";
+"action_select_video" = "Sélectionner une vidéo";
+"action_import_video" = "Importer une vidéo";
+"action_new_analysis" = "Nouvelle analyse";
+"action_view_details" = "Voir les détails";
+"action_delete_analysis" = "Supprimer l'analyse";
+"action_confirm_delete" = "Voulez-vous vraiment supprimer cette analyse ?";
+
+/* ──────────────────────────────────────────────
+   Status
+   ────────────────────────────────────────────── */
+
+"status_analyzing" = "Analyse en cours...";
+"status_detecting_reps" = "Détection des reps...";
+"status_calculating" = "Calcul des métriques...";
+"status_processing_video" = "Traitement de la vidéo...";
+"status_extracting_frames" = "Extraction des images...";
+"status_detecting_pose" = "Détection de la posture...";
+"status_smoothing_path" = "Lissage de la trajectoire...";
+"status_complete" = "Analyse terminée";
+"status_error" = "Erreur";
+"status_no_pose_detected" = "Aucune posture détectée";
+"status_recording" = "Enregistrement...";
+"status_ready" = "Prêt";
+"status_no_reps_detected" = "Aucune rep détectée";
+
+/* ──────────────────────────────────────────────
+   Recording
+   ────────────────────────────────────────────── */
+
+"recording_fps_30" = "30 IPS";
+"recording_fps_60" = "60 IPS";
+"recording_max_duration_reached" = "Durée maximale d'enregistrement atteinte";
+"recording_position_camera" = "Positionnez la caméra pour capturer l'amplitude complète du mouvement";
+"recording_tip" = "Filmez de côté pour de meilleurs résultats";
+
+/* ──────────────────────────────────────────────
+   Results
+   ────────────────────────────────────────────── */
+
+"result_title" = "Résultats de l'analyse";
+"result_summary" = "Résumé";
+"result_rep_details" = "Détails par rep";
+"result_bar_path" = "Trajectoire de la barre";
+"result_rep_number" = "Rep %d";
+"result_no_data" = "Aucune donnée d'analyse disponible";
+"result_notes_placeholder" = "Ajouter des notes...";
+"result_notes" = "Notes";
+
+/* ──────────────────────────────────────────────
+   History
+   ────────────────────────────────────────────── */
+
+"history_title" = "Historique";
+"history_empty" = "Aucune analyse";
+"history_empty_subtitle" = "Enregistrez votre premier mouvement pour le voir ici";
+"history_recent" = "Analyses récentes";
+"history_delete_confirm" = "Supprimer cette analyse ?";
+
+/* ──────────────────────────────────────────────
+   Settings
+   ────────────────────────────────────────────── */
+
+"settings_title" = "Réglages";
+"settings_preferred_lift" = "Type de mouvement préféré";
+"settings_recording_fps" = "Images par seconde";
+"settings_show_velocity_overlay" = "Afficher la vitesse";
+"settings_show_drift_lines" = "Afficher les lignes de dérive";
+"settings_auto_detect_reps" = "Détection auto des reps";
+"settings_path_color" = "Couleur de la trajectoire";
+"settings_calibration" = "Calibration";
+"settings_calibration_description" = "Calibrez pour convertir en mesures réelles";
+"settings_about" = "À propos de BarPath";
+"settings_version" = "Version";
+"settings_reset" = "Réinitialiser les réglages";
+"settings_reset_confirm" = "Réinitialiser tous les réglages par défaut ?";
+
+/* ──────────────────────────────────────────────
+   Path Color Options
+   ────────────────────────────────────────────── */
+
+"path_color_velocity" = "Vitesse";
+"path_color_fixed" = "Fixe";
+"path_color_phase" = "Phase";
+
+/* ──────────────────────────────────────────────
+   Calibration
+   ────────────────────────────────────────────── */
+
+"calibration_title" = "Calibration";
+"calibration_plate_size" = "Taille du disque";
+"calibration_user_height" = "Taille de l'utilisateur";
+"calibration_manual" = "Manuelle";
+"calibration_not_set" = "Non calibré";
+"calibration_set" = "Calibré";
+
+/* ──────────────────────────────────────────────
+   Errors
+   ────────────────────────────────────────────── */
+
+"error_camera_unavailable" = "La caméra n'est pas disponible";
+"error_camera_permission" = "L'accès à la caméra est nécessaire pour enregistrer les mouvements";
+"error_video_processing" = "Échec du traitement de la vidéo";
+"error_analysis_failed" = "L'analyse a échoué";
+"error_save_failed" = "Échec de la sauvegarde de l'analyse";
+"error_load_failed" = "Échec du chargement de l'analyse";
+"error_generic" = "Une erreur est survenue";
+
+/* ──────────────────────────────────────────────
+   Velocity Labels
+   ────────────────────────────────────────────── */
+
+"velocity_slow" = "Lent";
+"velocity_medium" = "Moyen";
+"velocity_fast" = "Rapide";
