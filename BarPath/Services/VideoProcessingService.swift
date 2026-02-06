@@ -134,11 +134,16 @@ final class VideoProcessingService: Sendable {
             let timestamp = CMTimeGetSeconds(presentationTime)
 
             if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
-                if let point = try await poseDetector.detectPose(
-                    in: pixelBuffer,
-                    timestamp: timestamp
-                ) {
-                    points.append(point)
+                do {
+                    if let point = try await poseDetector.detectPose(
+                        in: pixelBuffer,
+                        timestamp: timestamp
+                    ) {
+                        points.append(point)
+                    }
+                } catch {
+                    // Skip frames where pose detection fails rather than
+                    // aborting the entire video processing pipeline.
                 }
             }
 

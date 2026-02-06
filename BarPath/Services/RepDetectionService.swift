@@ -12,6 +12,12 @@ struct RepDetectionService {
     /// a peak or valley significant. Smaller movements are treated as noise.
     private static let minimumDisplacementThreshold: Double = 0.05
 
+    /// Minimum duration in seconds for a rep to be considered valid.
+    private static let minimumRepDuration: TimeInterval = 0.3
+
+    /// Maximum duration in seconds for a rep to be considered valid.
+    private static let maximumRepDuration: TimeInterval = 10.0
+
     // MARK: - Public API
 
     /// Detects reps from a smoothed bar path.
@@ -33,12 +39,16 @@ struct RepDetectionService {
 
         let yValues = points.map(\.y)
 
+        let reps: [RepSegment]
+
         switch liftType {
         case .deadlift, .clean, .snatch:
-            return detectPeakToPeakReps(points: points, yValues: yValues)
+            reps = detectPeakToPeakReps(points: points, yValues: yValues)
         case .squat, .benchPress, .overheadPress, .row, .other:
-            return detectValleyToValleyReps(points: points, yValues: yValues)
+            reps = detectValleyToValleyReps(points: points, yValues: yValues)
         }
+
+        return filterAndRenumber(reps)
     }
 
     // MARK: - Valley-to-Valley Detection
@@ -191,6 +201,39 @@ struct RepDetectionService {
         }
 
         return peaks
+    }
+
+    // MARK: - Duration Filtering
+
+    /// Filters out reps whose duration falls outside the valid range and renumbers
+    /// the remaining reps sequentially starting from 1.
+    ///
+    /// - Parameter reps: The unfiltered reps to validate.
+    /// - Returns: A new array with invalid reps removed and rep numbers corrected.
+    private static func filterAndRenumber(_ reps: [RepSegment]) -> [RepSegment] {
+        var renumbered: [RepSegment] = []
+
+        for rep in reps {
+            guard rep.duration >= minimumRepDuration,
+                  rep.duration <= maximumRepDuration else {
+                continue
+            }
+
+            let corrected = RepSegment(
+                repNumber: renumbered.count + 1,
+                startIndex: rep.startIndex,
+                endIndex: rep.endIndex,
+                concentricStartIndex: rep.concentricStartIndex,
+                peakVelocity: rep.peakVelocity,
+                averageVelocity: rep.averageVelocity,
+                verticalDisplacement: rep.verticalDisplacement,
+                horizontalDrift: rep.horizontalDrift,
+                duration: rep.duration
+            )
+            renumbered.append(corrected)
+        }
+
+        return renumbered
     }
 
     // MARK: - Rep Construction

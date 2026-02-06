@@ -186,9 +186,14 @@ struct ExportService {
         }
         writer.startSession(atSourceTime: .zero)
 
-        // Precompute velocities for coloring.
+        // Precompute velocities and build a timestamp-keyed lookup for O(1) access.
         let velocities = BarPathAnalyzer.calculateVelocities(analysis.points)
         let maxVelocity = velocities.max() ?? 1.0
+
+        var velocityByTimestamp: [TimeInterval: Double] = [:]
+        for (point, velocity) in zip(analysis.points, velocities) {
+            velocityByTimestamp[point.timestamp] = velocity
+        }
 
         let totalDurationSeconds = CMTimeGetSeconds(duration)
         var frameIndex = 0
@@ -207,7 +212,7 @@ struct ExportService {
                 on: sourcePixelBuffer,
                 timestamp: timestamp,
                 points: analysis.points,
-                velocities: velocities,
+                velocityByTimestamp: velocityByTimestamp,
                 maxVelocity: maxVelocity,
                 videoSize: CGSize(width: videoWidth, height: videoHeight)
             ) else {
@@ -265,11 +270,14 @@ struct ExportService {
 
     /// Draws the bar path overlay onto a copy of the source pixel buffer.
     ///
+    /// The source buffer is read-only, so this method allocates a writable copy,
+    /// draws the overlay on the copy, and returns the new buffer.
+    ///
     /// - Parameters:
-    ///   - sourceBuffer: The original video frame.
+    ///   - sourceBuffer: The original video frame (read-only).
     ///   - timestamp: The current frame's presentation time.
     ///   - points: All bar path points from the analysis.
-    ///   - velocities: Precomputed velocities for each point.
+    ///   - velocityByTimestamp: Velocity values keyed by point timestamp.
     ///   - maxVelocity: The maximum velocity value for normalization.
     ///   - videoSize: The dimensions of the video frame.
     /// - Returns: A new pixel buffer with the overlay drawn, or `nil` on failure.
@@ -277,25 +285,30 @@ struct ExportService {
         on sourceBuffer: CVPixelBuffer,
         timestamp: TimeInterval,
         points: [BarPathPoint],
-        velocities: [Double],
+        velocityByTimestamp: [TimeInterval: Double],
         maxVelocity: Double,
         videoSize: CGSize
     ) -> CVPixelBuffer? {
-        let width = CVPixelBufferGetWidth(sourceBuffer)
-        let height = CVPixelBufferGetHeight(sourceBuffer)
-
         // Find points up to the current timestamp.
         let visiblePoints = points.filter { $0.timestamp <= timestamp }
         guard !visiblePoints.isEmpty else { return sourceBuffer }
 
-        CVPixelBufferLockBaseAddress(sourceBuffer, .readOnly)
-        defer { CVPixelBufferUnlockBaseAddress(sourceBuffer, .readOnly) }
-
-        guard let baseAddress = CVPixelBufferGetBaseAddress(sourceBuffer) else {
+        // Create a writable copy of the source pixel buffer.
+        guard let outputBuffer = copyPixelBuffer(from: sourceBuffer) else {
             return nil
         }
 
-        let bytesPerRow = CVPixelBufferGetBytesPerRow(sourceBuffer)
+        let width = CVPixelBufferGetWidth(outputBuffer)
+        let height = CVPixelBufferGetHeight(outputBuffer)
+
+        CVPixelBufferLockBaseAddress(outputBuffer, [])
+        defer { CVPixelBufferUnlockBaseAddress(outputBuffer, []) }
+
+        guard let baseAddress = CVPixelBufferGetBaseAddress(outputBuffer) else {
+            return nil
+        }
+
+        let bytesPerRow = CVPixelBufferGetBytesPerRow(outputBuffer)
         let colorSpace = CGColorSpaceCreateDeviceRGB()
 
         guard let context = CGContext(
@@ -329,9 +342,7 @@ struct ExportService {
             let currX = CGFloat(curr.x) * frameWidth
             let currY = frameHeight - CGFloat(curr.y) * frameHeight
 
-            // Find the velocity index in the full points array.
-            let pointIndex = points.firstIndex(where: { $0.id == curr.id }) ?? i
-            let velocity = pointIndex < velocities.count ? velocities[pointIndex] : 0
+            let velocity = velocityByTimestamp[curr.timestamp] ?? 0
             let color = velocityColor(velocity: velocity, maxVelocity: maxVelocity)
 
             context.setStrokeColor(color)
@@ -355,7 +366,66 @@ struct ExportService {
             ))
         }
 
-        return sourceBuffer
+        return outputBuffer
+    }
+
+    /// Allocates a new writable `CVPixelBuffer` with the same dimensions and format
+    /// as the source, and copies the pixel data into it.
+    ///
+    /// - Parameter source: The source pixel buffer to copy.
+    /// - Returns: A new writable pixel buffer, or `nil` on failure.
+    private static func copyPixelBuffer(from source: CVPixelBuffer) -> CVPixelBuffer? {
+        let width = CVPixelBufferGetWidth(source)
+        let height = CVPixelBufferGetHeight(source)
+        let pixelFormat = CVPixelBufferGetPixelFormatType(source)
+
+        let attributes: [String: Any] = [
+            kCVPixelBufferIOSurfacePropertiesKey as String: [:] as [String: Any]
+        ]
+
+        var outputBuffer: CVPixelBuffer?
+        let status = CVPixelBufferCreate(
+            kCFAllocatorDefault,
+            width,
+            height,
+            pixelFormat,
+            attributes as CFDictionary,
+            &outputBuffer
+        )
+
+        guard status == kCVReturnSuccess, let destination = outputBuffer else {
+            return nil
+        }
+
+        CVPixelBufferLockBaseAddress(source, .readOnly)
+        CVPixelBufferLockBaseAddress(destination, [])
+        defer {
+            CVPixelBufferUnlockBaseAddress(source, .readOnly)
+            CVPixelBufferUnlockBaseAddress(destination, [])
+        }
+
+        let sourcePlaneCount = CVPixelBufferGetPlaneCount(source)
+
+        if sourcePlaneCount > 0 {
+            for plane in 0..<sourcePlaneCount {
+                guard let srcAddress = CVPixelBufferGetBaseAddressOfPlane(source, plane),
+                      let dstAddress = CVPixelBufferGetBaseAddressOfPlane(destination, plane) else {
+                    return nil
+                }
+                let srcBytesPerRow = CVPixelBufferGetBytesPerRowOfPlane(source, plane)
+                let planeHeight = CVPixelBufferGetHeightOfPlane(source, plane)
+                memcpy(dstAddress, srcAddress, srcBytesPerRow * planeHeight)
+            }
+        } else {
+            guard let srcAddress = CVPixelBufferGetBaseAddress(source),
+                  let dstAddress = CVPixelBufferGetBaseAddress(destination) else {
+                return nil
+            }
+            let srcBytesPerRow = CVPixelBufferGetBytesPerRow(source)
+            memcpy(dstAddress, srcAddress, srcBytesPerRow * height)
+        }
+
+        return destination
     }
 
     /// Returns a CGColor corresponding to the velocity, interpolating from green (slow)

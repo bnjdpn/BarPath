@@ -1,9 +1,30 @@
 import AVFoundation
 import SwiftUI
 
+/// Delegate for AVCaptureMovieFileOutput recording callbacks.
+private final class MovieFileOutputDelegate: NSObject, AVCaptureFileOutputRecordingDelegate, @unchecked Sendable {
+    var onFinished: (@Sendable (Result<URL, Error>) -> Void)?
+
+    func fileOutput(
+        _ output: AVCaptureFileOutput,
+        didFinishRecordingTo outputFileURL: URL,
+        from connections: [AVCaptureConnection],
+        error: (any Error)?
+    ) {
+        if let error {
+            onFinished?(.failure(error))
+        } else {
+            onFinished?(.success(outputFileURL))
+        }
+        onFinished = nil
+    }
+}
+
 /// Wraps AVCaptureSession to allow safe cross-isolation usage.
 private final class SessionRunner: @unchecked Sendable {
     let session = AVCaptureSession()
+    let movieFileOutput = AVCaptureMovieFileOutput()
+    let outputDelegate = MovieFileOutputDelegate()
 
     func start() {
         session.startRunning()
@@ -11,6 +32,14 @@ private final class SessionRunner: @unchecked Sendable {
 
     func stop() {
         session.stopRunning()
+    }
+
+    func startRecording(to url: URL) {
+        movieFileOutput.startRecording(to: url, recordingDelegate: outputDelegate)
+    }
+
+    func stopRecording() {
+        movieFileOutput.stopRecording()
     }
 }
 
@@ -32,8 +61,10 @@ final class RecordViewModel {
     var selectedLiftType: LiftType = .squat
     var recordedVideoURL: URL?
     var error: String?
+    var cameraPermissionDenied = false
 
     private let sessionRunner = SessionRunner()
+    private let recordingFPS: RecordingFPS
 
     /// The underlying capture session for use by the camera preview layer.
     var captureSession: AVCaptureSession { sessionRunner.session }
@@ -42,8 +73,32 @@ final class RecordViewModel {
 
     // MARK: - Initialization
 
-    init(preferredLiftType: LiftType = .squat) {
+    init(preferredLiftType: LiftType = .squat, recordingFPS: RecordingFPS = .sixty) {
         self.selectedLiftType = preferredLiftType
+        self.recordingFPS = recordingFPS
+    }
+
+    // MARK: - Camera Permission
+
+    /// Checks camera authorization status and requests permission if needed.
+    func checkCameraPermission() async {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            cameraPermissionDenied = false
+        case .notDetermined:
+            let granted = await AVCaptureDevice.requestAccess(for: .video)
+            cameraPermissionDenied = !granted
+        case .denied, .restricted:
+            cameraPermissionDenied = true
+        @unknown default:
+            cameraPermissionDenied = true
+        }
+    }
+
+    /// Opens the system Settings app so the user can grant camera permission.
+    func openSettings() {
+        guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
+        UIApplication.shared.open(settingsURL)
     }
 
     // MARK: - Camera Setup
@@ -70,6 +125,24 @@ final class RecordViewModel {
         }
 
         session.addInput(videoInput)
+
+        // Configure frame rate
+        let desiredFPS = recordingFPS.rawValue
+        do {
+            try videoDevice.lockForConfiguration()
+            let targetDuration = CMTime(value: 1, timescale: CMTimeScale(desiredFPS))
+            videoDevice.activeVideoMinFrameDuration = targetDuration
+            videoDevice.activeVideoMaxFrameDuration = targetDuration
+            videoDevice.unlockForConfiguration()
+        } catch {
+            // Frame rate configuration failed; continue with default rate.
+        }
+
+        // Add movie file output
+        if session.canAddOutput(sessionRunner.movieFileOutput) {
+            session.addOutput(sessionRunner.movieFileOutput)
+        }
+
         session.commitConfiguration()
 
         let runner = sessionRunner
@@ -87,6 +160,35 @@ final class RecordViewModel {
         isRecording = true
         recordingDuration = 0
         error = nil
+
+        // Generate a timestamped filename
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd_HHmmss"
+        let timestamp = formatter.string(from: Date())
+        let filename = "BarPath_\(timestamp).mov"
+        let outputURL = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
+
+        // Remove any existing file at this path
+        try? FileManager.default.removeItem(at: outputURL)
+
+        // Set up the delegate callback
+        let runner = sessionRunner
+        runner.outputDelegate.onFinished = { [weak self] result in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                switch result {
+                case .success(let url):
+                    self.recordedVideoURL = url
+                case .failure:
+                    self.error = NSLocalizedString(
+                        "error_recording_failed",
+                        comment: "Recording failed"
+                    )
+                }
+            }
+        }
+
+        runner.startRecording(to: outputURL)
 
         timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
             Task { @MainActor in
@@ -108,12 +210,7 @@ final class RecordViewModel {
         timer?.invalidate()
         timer = nil
 
-        // In a production app, the actual file URL would come from the camera output delegate.
-        // For now, store a placeholder in the temporary directory.
-        let tempURL = FileManager.default.temporaryDirectory
-            .appendingPathComponent(UUID().uuidString)
-            .appendingPathExtension("mov")
-        recordedVideoURL = tempURL
+        sessionRunner.stopRecording()
     }
 
     /// Resets all recording state to initial values.

@@ -174,3 +174,80 @@
 "velocity_slow" = "Slow";
 "velocity_medium" = "Medium";
 "velocity_fast" = "Fast";
+
+/* ──────────────────────────────────────────────
+   Recording
+   ────────────────────────────────────────────── */
+
+"error_recording_failed" = "Recording failed. Please try again.";
+"action_open_settings" = "Open Settings";
+"error_camera_permission_denied" = "Camera access denied. Please enable it in Settings.";
+
+/* ──────────────────────────────────────────────
+   Home
+   ────────────────────────────────────────────── */
+
+"home_title" = "BarPath";
+"home_record_button" = "Record a Lift";
+"home_import_button" = "Import Video";
+"home_recent_section" = "Recent";
+"home_rep_count" = "%d reps";
+"delete" = "Delete";
+"settings_button" = "Settings";
+
+/* ──────────────────────────────────────────────
+   Units
+   ────────────────────────────────────────────── */
+
+"unit_velocity" = "u/s";
+"unit_normalized" = "norm";
+"unit_reps" = "reps";
+
+/* ──────────────────────────────────────────────
+   Result Extras
+   ────────────────────────────────────────────── */
+
+"result_metrics_header" = "Metrics";
+"metric_drift" = "Drift";
+"share_analysis_summary" = "%@ - %d reps | Peak: %@ u/s | Consistency: %@";
+"cancel" = "Cancel";
+"retry" = "Retry";
+
+/* ──────────────────────────────────────────────
+   Record Screen
+   ────────────────────────────────────────────── */
+
+"record_start" = "Start Recording";
+"record_stop" = "Stop Recording";
+
+/* ──────────────────────────────────────────────
+   Rep Selector
+   ────────────────────────────────────────────── */
+
+"rep_all" = "All";
+"rep_all_accessibility" = "Show all reps";
+
+/* ──────────────────────────────────────────────
+   Export
+   ────────────────────────────────────────────── */
+
+"export_video_button" = "Export Video";
+"save_to_photos_button" = "Save to Photos";
+"export_in_progress" = "Exporting...";
+"export_complete" = "Export complete";
+"export_error" = "Export failed";
+"saved_to_photos" = "Saved to Photos";
+"share_video" = "Share Video";
+
+/* ──────────────────────────────────────────────
+   Export Errors
+   ────────────────────────────────────────────── */
+
+"error_export_no_video_url" = "No video available for export";
+"error_export_no_video_track" = "No video track found in source";
+"error_export_cannot_create_reader" = "Cannot read source video";
+"error_export_cannot_create_writer" = "Cannot create export file";
+"error_export_cannot_add_reader_output" = "Cannot configure video reader";
+"error_export_cannot_add_writer_input" = "Cannot configure video writer";
+"error_export_failed_%@" = "Export failed: %@";
+"error_export_photos_not_authorized" = "Photos access is required to save videos";

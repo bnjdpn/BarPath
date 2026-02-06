@@ -1,5 +1,13 @@
 import SwiftUI
 
+/// State of the video export process.
+enum ExportState: Equatable {
+    case idle
+    case exporting(progress: Double)
+    case exported(url: URL)
+    case error(String)
+}
+
 /// ViewModel for the analysis result screen, managing rep selection,
 /// metric display, and export/share actions.
 @Observable
@@ -11,6 +19,11 @@ final class ResultViewModel {
     let analysis: BarPathAnalysis
     var selectedRep: Int?
     var showMetrics = true
+    var exportState: ExportState = .idle
+    var exportedVideoURL: URL?
+    var savedToPhotos = false
+
+    private var exportTask: Task<Void, Never>?
 
     // MARK: - Initialization
 
@@ -100,11 +113,41 @@ final class ResultViewModel {
 
     // MARK: - Export Actions
 
-    /// Exports the analysis video with overlay. Returns the URL of the exported file.
-    func exportVideo() -> URL? {
-        // In production, this would render the bar path overlay onto the video
-        // and export to a temporary file for sharing.
-        return analysis.videoURL
+    /// Exports the analysis video with the bar path overlay drawn on each frame.
+    func exportVideo() async {
+        exportTask?.cancel()
+        exportState = .exporting(progress: 0)
+        savedToPhotos = false
+
+        exportTask = Task {
+            do {
+                let url = try await ExportService.exportVideo(from: analysis) { progress in
+                    Task { @MainActor in
+                        if !Task.isCancelled {
+                            self.exportState = .exporting(progress: progress)
+                        }
+                    }
+                }
+                if Task.isCancelled { return }
+                exportedVideoURL = url
+                exportState = .exported(url: url)
+            } catch {
+                if Task.isCancelled { return }
+                exportState = .error(error.localizedDescription)
+            }
+        }
+        await exportTask?.value
+    }
+
+    /// Saves the exported video to the user's Photos library.
+    func saveToPhotos() async {
+        guard let url = exportedVideoURL else { return }
+        do {
+            try await ExportService.saveToPhotosLibrary(url: url)
+            savedToPhotos = true
+        } catch {
+            exportState = .error(error.localizedDescription)
+        }
     }
 
     /// Creates a shareable text summary of the analysis.

@@ -245,10 +245,19 @@ struct ResultViewModelTests {
         #expect(!viewModel.formattedDrift.isEmpty)
     }
 
-    // MARK: - Export
+    // MARK: - Export State
 
-    @Test("exportVideo returns nil when no video URL is set")
-    func exportVideoReturnsNilWithoutURL() {
+    @Test("Export state defaults to idle")
+    func exportStateDefaultsToIdle() {
+        let viewModel = makeViewModel()
+
+        #expect(viewModel.exportState == .idle)
+        #expect(viewModel.exportedVideoURL == nil)
+        #expect(viewModel.savedToPhotos == false)
+    }
+
+    @Test("exportVideo sets error state when no video URL")
+    func exportVideoSetsErrorWhenNoURL() async {
         let analysis = BarPathAnalysis(
             liftType: .squat,
             points: [],
@@ -259,23 +268,23 @@ struct ResultViewModelTests {
         )
         let viewModel = makeViewModel(analysis: analysis)
 
-        #expect(viewModel.exportVideo() == nil)
+        await viewModel.exportVideo()
+
+        if case .error = viewModel.exportState {
+            // Expected error state
+        } else {
+            Issue.record("Expected error state but got \(viewModel.exportState)")
+        }
+        #expect(viewModel.exportedVideoURL == nil)
     }
 
-    @Test("exportVideo returns URL when video URL is set")
-    func exportVideoReturnsURLWhenSet() {
-        let testURL = URL(fileURLWithPath: "/tmp/test.mp4")
-        let analysis = BarPathAnalysis(
-            liftType: .squat,
-            points: [],
-            reps: [],
-            metrics: AnalysisMetrics.calculate(from: []),
-            videoURL: testURL,
-            duration: 0
-        )
-        let viewModel = makeViewModel(analysis: analysis)
+    @Test("saveToPhotos does nothing when no exported URL")
+    func saveToPhotosNoOpWithoutURL() async {
+        let viewModel = makeViewModel()
 
-        #expect(viewModel.exportVideo() == testURL)
+        await viewModel.saveToPhotos()
+
+        #expect(viewModel.savedToPhotos == false)
     }
 
     // MARK: - Share Analysis

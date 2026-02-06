@@ -25,6 +25,7 @@ struct ResultView: View {
                 videoSection
                 repSelector
                 metricsSection
+                exportSection
             }
             .padding()
         }
@@ -166,15 +167,149 @@ struct ResultView: View {
         }
     }
 
+    // MARK: - Export Section
+
+    private var exportSection: some View {
+        VStack(spacing: 12) {
+            switch viewModel.exportState {
+            case .idle:
+                Button {
+                    Task {
+                        await viewModel.exportVideo()
+                    }
+                } label: {
+                    Label(
+                        NSLocalizedString(
+                            "export_video_button",
+                            comment: "Export video button"
+                        ),
+                        systemImage: "square.and.arrow.up.on.square"
+                    )
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                }
+                .buttonStyle(.borderedProminent)
+
+            case .exporting(let progress):
+                VStack(spacing: 8) {
+                    ProgressView(value: progress)
+                    Text(
+                        NSLocalizedString(
+                            "export_in_progress",
+                            comment: "Export in progress"
+                        )
+                    )
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                }
+
+            case .exported(let url):
+                VStack(spacing: 8) {
+                    Label(
+                        NSLocalizedString(
+                            "export_complete",
+                            comment: "Export complete"
+                        ),
+                        systemImage: "checkmark.circle.fill"
+                    )
+                    .foregroundStyle(.green)
+
+                    HStack(spacing: 12) {
+                        ShareLink(item: url) {
+                            Label(
+                                NSLocalizedString(
+                                    "share_video",
+                                    comment: "Share video"
+                                ),
+                                systemImage: "square.and.arrow.up"
+                            )
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                        }
+                        .buttonStyle(.borderedProminent)
+
+                        if !viewModel.savedToPhotos {
+                            Button {
+                                Task {
+                                    await viewModel.saveToPhotos()
+                                }
+                            } label: {
+                                Label(
+                                    NSLocalizedString(
+                                        "save_to_photos_button",
+                                        comment: "Save to Photos"
+                                    ),
+                                    systemImage: "photo.on.rectangle"
+                                )
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 10)
+                            }
+                            .buttonStyle(.bordered)
+                        } else {
+                            Label(
+                                NSLocalizedString(
+                                    "saved_to_photos",
+                                    comment: "Saved to Photos"
+                                ),
+                                systemImage: "checkmark.circle.fill"
+                            )
+                            .foregroundStyle(.green)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                        }
+                    }
+                }
+
+            case .error(let message):
+                VStack(spacing: 8) {
+                    Label(
+                        NSLocalizedString(
+                            "export_error",
+                            comment: "Export error"
+                        ),
+                        systemImage: "exclamationmark.triangle.fill"
+                    )
+                    .foregroundStyle(.red)
+
+                    Text(message)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+
+                    Button {
+                        Task {
+                            await viewModel.exportVideo()
+                        }
+                    } label: {
+                        Text(
+                            NSLocalizedString(
+                                "action_retry",
+                                comment: "Retry"
+                            )
+                        )
+                    }
+                    .buttonStyle(.bordered)
+                }
+            }
+        }
+    }
+
     // MARK: - Share Button
 
     private var shareButton: some View {
-        ShareLink(
-            item: viewModel.shareAnalysis(),
-            subject: Text(viewModel.analysis.liftType.displayName),
-            message: Text(viewModel.shareAnalysis())
-        ) {
-            Image(systemName: "square.and.arrow.up")
+        Group {
+            if let url = viewModel.exportedVideoURL {
+                ShareLink(item: url) {
+                    Image(systemName: "square.and.arrow.up")
+                }
+            } else {
+                ShareLink(
+                    item: viewModel.shareAnalysis(),
+                    subject: Text(viewModel.analysis.liftType.displayName),
+                    message: Text(viewModel.shareAnalysis())
+                ) {
+                    Image(systemName: "square.and.arrow.up")
+                }
+            }
         }
     }
 }

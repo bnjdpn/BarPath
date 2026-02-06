@@ -35,6 +35,9 @@ struct HomeView: View {
                 }
             }
         }
+        .navigationDestination(item: $importedVideoURL) { url in
+            AnalysisProgressView(videoURL: url, liftType: selectedLiftType)
+        }
         .onAppear {
             viewModel.loadRecent()
         }
