@@ -1,0 +1,8 @@
+# Fastlane - App Store Connect API Key
+asc_api_key.json
+
+# Fastlane - Screenshots (generated)
+screenshots/
+
+# Fastlane - Test reports
+test_output/

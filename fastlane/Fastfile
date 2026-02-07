@@ -52,7 +52,8 @@ platform :ios do
     build_app(
       scheme: "BarPath",
       configuration: "Release",
-      export_method: "app-store"
+      export_method: "app-store",
+      export_options: "fastlane/ExportOptions.plist"
     )
 
     upload_to_testflight(
@@ -90,7 +91,8 @@ platform :ios do
     build_app(
       scheme: "BarPath",
       configuration: "Release",
-      export_method: "app-store"
+      export_method: "app-store",
+      export_options: "fastlane/ExportOptions.plist"
     )
 
     # 3. Upload screenshots
@@ -140,7 +142,8 @@ platform :ios do
     build_app(
       scheme: "BarPath",
       configuration: "Release",
-      export_method: "app-store"
+      export_method: "app-store",
+      export_options: "fastlane/ExportOptions.plist"
     )
 
     upload_to_app_store(

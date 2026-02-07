@@ -1,0 +1,6 @@
+git_url("https://github.com/bnjdpn/BarPath.git")
+git_branch("certificates")
+storage_mode("git")
+type("appstore")
+app_identifier("app.barpath")
+team_id("767SX34A7Z")
