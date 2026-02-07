@@ -219,6 +219,14 @@
 
 "record_start" = "Démarrer l'enregistrement";
 "record_stop" = "Arrêter l'enregistrement";
+"record_tracking_active" = "Suivi de la trajectoire...";
+"record_no_tracking" = "Aucune barre détectée";
+
+/* ──────────────────────────────────────────────
+   Audio Feedback
+   ────────────────────────────────────────────── */
+
+"settings_audio_feedback" = "Retour audio";
 
 /* ──────────────────────────────────────────────
    Rep Selector
