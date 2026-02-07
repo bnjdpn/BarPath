@@ -1,0 +1,34 @@
+BarPath est l'application ultime de suivi de trajectoire de barre pour les athlètes sérieux. En utilisant la vision par ordinateur avancée, BarPath analyse vos mouvements en temps réel et fournit des conseils d'entraînement pratiques.
+
+FONCTIONNALITÉS:
+• Suivi de trajectoire de barre en temps réel pendant l'enregistrement
+• Détection bilatérale des poignets avec filtrage de Kalman pour la précision
+• Conseils d'entraînement intelligents basés sur votre technique
+• Comparaison côte à côte de différentes analyses
+• Calculateur de 1RM utilisant l'entraînement basé sur la vélocité
+• Export de vidéos annotées vers Photos
+• Analyse répétition par répétition avec métriques détaillées
+• Support du mode sombre
+
+PARFAIT POUR:
+• Les powerlifters optimisant leur trajectoire de barre
+• Les haltérophiles olympiques analysant leur technique
+• Les entraîneurs de force formant des athlètes
+• Toute personne sérieuse au sujet de l'amélioration de ses mouvements
+
+MÉTRIQUES SUIVIES:
+• Vélocité maximale et moyenne par répétition
+• Déplacement vertical
+• Dérive horizontale
+• Consistance des répétitions
+• Détection de fatigue
+
+CONFIDENTIALITÉ D'ABORD:
+Tout le traitement vidéo se fait sur votre appareil. Aucun téléversement cloud, aucune collecte de données, confidentialité totale.
+
+EXIGENCES:
+• iPhone exécutant iOS 26.0 ou ultérieur
+• Placez le téléphone à 1-2 mètres, vue de profil
+• Bon éclairage pour de meilleurs résultats
+
+Achat unique, pas d'abonnement, pas de publicités.

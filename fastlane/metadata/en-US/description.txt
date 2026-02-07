@@ -1,0 +1,34 @@
+BarPath is the ultimate barbell path tracking app for serious lifters. Using advanced computer vision, BarPath analyzes your lifts in real-time and provides actionable coaching feedback.
+
+FEATURES:
+• Real-time bar path tracking during recording
+• Bilateral wrist detection with Kalman filtering for precision
+• Intelligent coaching tips based on your technique
+• Side-by-side comparison of different analyses
+• 1RM calculator using velocity-based training
+• Export annotated videos to Photos
+• Rep-by-rep breakdown with detailed metrics
+• Dark mode support
+
+PERFECT FOR:
+• Powerlifters optimizing bar path
+• Olympic weightlifters analyzing technique
+• Strength coaches training athletes
+• Anyone serious about improving their lifts
+
+METRICS TRACKED:
+• Peak and average velocity per rep
+• Vertical displacement
+• Horizontal drift
+• Rep consistency
+• Fatigue detection
+
+PRIVACY FIRST:
+All video processing happens on your device. No cloud uploads, no data collection, complete privacy.
+
+REQUIREMENTS:
+• iPhone running iOS 26.0 or later
+• Place phone 1-2 meters away, side profile view
+• Good lighting for best results
+
+One-time purchase, no subscription, no ads.

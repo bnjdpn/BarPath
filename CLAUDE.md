@@ -211,7 +211,27 @@ BarPathUITests/
 Gemfile                                # Bundler dependencies
 fastlane/
 ├── Appfile                            # App metadata (bundle ID, team)
-└── Fastfile                           # Lanes: test, beta, release, release_quick
+├── Fastfile                           # Lanes: test, beta, release, release_quick
+└── metadata/                          # App Store metadata
+    ├── copyright.txt                  # Copyright notice
+    ├── primary_category.txt           # App Store category
+    ├── en-US/                         # English metadata
+    │   ├── name.txt                   # App name (30 chars)
+    │   ├── subtitle.txt               # Subtitle (30 chars)
+    │   ├── description.txt            # Full description (4000 chars)
+    │   ├── keywords.txt               # Keywords (100 chars)
+    │   ├── promotional_text.txt       # Promotional text (170 chars)
+    │   ├── release_notes.txt          # What's new
+    │   └── privacy_url.txt            # Privacy policy URL
+    ├── fr-FR/                         # French metadata
+    │   ├── name.txt
+    │   ├── subtitle.txt
+    │   ├── description.txt
+    │   ├── keywords.txt
+    │   ├── promotional_text.txt
+    │   └── release_notes.txt
+    └── review_information/
+        └── notes.txt                  # App Review instructions
 ```
 
 ---

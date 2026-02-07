@@ -1,0 +1,1 @@
+barbell,barpath,tracking,squat,deadlift,bench,press,VBT,velocity,powerlifting,weightlifting,strength

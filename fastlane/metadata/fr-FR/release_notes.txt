@@ -1,0 +1,10 @@
+Version initiale de BarPath!
+
+• Suivi de trajectoire de barre en temps réel
+• Conseils d'entraînement intelligents
+• Calculateur de 1RM (VBT)
+• Comparaison côte à côte
+• Export vers Photos
+• Support complet du mode sombre
+
+Merci pour votre soutien!

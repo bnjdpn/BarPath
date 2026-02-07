@@ -1,0 +1,1 @@
+barre,trajectoire,suivi,squat,deadlift,bench,développé,VBT,vélocité,powerlifting,haltérophilie,force

@@ -1,0 +1,10 @@
+Initial release of BarPath!
+
+• Real-time bar path tracking
+• Intelligent coaching feedback
+• 1RM calculator (VBT)
+• Side-by-side comparison
+• Export to Photos
+• Full dark mode support
+
+Thank you for your support!
