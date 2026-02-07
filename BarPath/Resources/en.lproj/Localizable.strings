@@ -259,3 +259,41 @@
 "error_export_cannot_add_writer_input" = "Cannot configure video writer";
 "error_export_failed_%@" = "Export failed: %@";
 "error_export_photos_not_authorized" = "Photos access is required to save videos";
+
+/* ──────────────────────────────────────────────
+   Coaching Tips
+   ────────────────────────────────────────────── */
+
+"coaching_drift_critical" = "Critical: Bar drifts %.1f cm horizontally - check your balance";
+"coaching_drift_warning" = "Bar drifts %.1f cm horizontally - work on keeping the bar vertical";
+"coaching_drift_excellent" = "Excellent bar path control - minimal drift detected";
+"coaching_drift_increasing" = "Drift increases with each rep - fatigue may be affecting your form";
+"coaching_fatigue_critical" = "Rep %d is %.0f%% slower than average - consider ending the set";
+"coaching_fatigue_warning" = "Rep %d is %.0f%% slower than average - fatigue detected";
+"coaching_consistency_excellent" = "Excellent consistency (%.0f%%) across all reps";
+"coaching_consistency_poor" = "Inconsistent reps detected - focus on maintaining the same tempo";
+"coaching_velocity_consistent" = "Great velocity consistency across all reps";
+
+/* ──────────────────────────────────────────────
+   Comparison
+   ────────────────────────────────────────────── */
+
+"comparison_title" = "Compare Analyses";
+"comparison_analysis_a" = "Analysis A";
+"comparison_analysis_b" = "Analysis B";
+"comparison_difference" = "Difference";
+"comparison_metric" = "Metric";
+"comparison_overlaid_paths" = "Overlaid Bar Paths";
+"comparison_metrics" = "Metrics Comparison";
+"comparison_select_analysis" = "Select Analysis to Compare";
+"comparison_no_analyses" = "No other analyses available";
+
+/* ──────────────────────────────────────────────
+   Frame-by-Frame
+   ────────────────────────────────────────────── */
+
+"result_frame_by_frame" = "Frame-by-Frame";
+"result_current_frame" = "Frame %d of %d";
+"result_position" = "Position";
+"result_velocity" = "Velocity";
+"result_coaching_tips" = "Coaching Tips";

@@ -259,3 +259,41 @@
 "error_export_cannot_add_writer_input" = "Impossible de configurer l'encodeur vidéo";
 "error_export_failed_%@" = "Échec de l'exportation : %@";
 "error_export_photos_not_authorized" = "L'accès aux Photos est requis pour enregistrer les vidéos";
+
+/* ──────────────────────────────────────────────
+   Coaching Tips
+   ────────────────────────────────────────────── */
+
+"coaching_drift_critical" = "Critique : La barre dérive de %.1f cm horizontalement - vérifiez votre équilibre";
+"coaching_drift_warning" = "La barre dérive de %.1f cm horizontalement - travaillez la verticalité";
+"coaching_drift_excellent" = "Excellent contrôle de la trajectoire - dérive minimale détectée";
+"coaching_drift_increasing" = "La dérive augmente à chaque rep - la fatigue affecte peut-être votre technique";
+"coaching_fatigue_critical" = "Rep %d est %.0f%% plus lente que la moyenne - envisagez de terminer la série";
+"coaching_fatigue_warning" = "Rep %d est %.0f%% plus lente que la moyenne - fatigue détectée";
+"coaching_consistency_excellent" = "Excellente régularité (%.0f%%) sur toutes les reps";
+"coaching_consistency_poor" = "Reps irrégulières détectées - concentrez-vous sur le maintien du même tempo";
+"coaching_velocity_consistent" = "Excellente régularité de vitesse sur toutes les reps";
+
+/* ──────────────────────────────────────────────
+   Comparison
+   ────────────────────────────────────────────── */
+
+"comparison_title" = "Comparer les analyses";
+"comparison_analysis_a" = "Analyse A";
+"comparison_analysis_b" = "Analyse B";
+"comparison_difference" = "Différence";
+"comparison_metric" = "Métrique";
+"comparison_overlaid_paths" = "Trajectoires superposées";
+"comparison_metrics" = "Comparaison des métriques";
+"comparison_select_analysis" = "Sélectionnez l'analyse à comparer";
+"comparison_no_analyses" = "Aucune autre analyse disponible";
+
+/* ──────────────────────────────────────────────
+   Frame-by-Frame
+   ────────────────────────────────────────────── */
+
+"result_frame_by_frame" = "Image par image";
+"result_current_frame" = "Image %d sur %d";
+"result_position" = "Position";
+"result_velocity" = "Vitesse";
+"result_coaching_tips" = "Conseils d'entraînement";
