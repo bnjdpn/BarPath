@@ -104,6 +104,7 @@ final class RecordViewModel {
     private let sessionRunner = SessionRunner()
     private let recordingFPS: RecordingFPS
     private let poseDetectionService: PoseDetecting
+    private var hapticsEnabled: Bool
 
     /// The underlying capture session for use by the camera preview layer.
     var captureSession: AVCaptureSession { sessionRunner.session }
@@ -121,11 +122,13 @@ final class RecordViewModel {
     init(
         preferredLiftType: LiftType = .squat,
         recordingFPS: RecordingFPS = .sixty,
-        poseDetectionService: PoseDetecting = PoseDetectionService()
+        poseDetectionService: PoseDetecting = PoseDetectionService(),
+        hapticsEnabled: Bool = true
     ) {
         self.selectedLiftType = preferredLiftType
         self.recordingFPS = recordingFPS
         self.poseDetectionService = poseDetectionService
+        self.hapticsEnabled = hapticsEnabled
     }
 
     // MARK: - Camera Permission
@@ -233,6 +236,10 @@ final class RecordViewModel {
         lastProcessedFrameTime = 0
         recordingStartTime = Date()
 
+        if hapticsEnabled {
+            HapticManager.shared.recordingStarted()
+        }
+
         // Generate a timestamped filename
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd_HHmmss"
@@ -283,6 +290,10 @@ final class RecordViewModel {
         timer = nil
 
         sessionRunner.stopRecording()
+
+        if hapticsEnabled {
+            HapticManager.shared.recordingStopped()
+        }
     }
 
     /// Resets all recording state to initial values.

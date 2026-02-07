@@ -10,6 +10,7 @@ struct HistoryDetailView: View {
 
     @State private var analysis: BarPathAnalysis?
     @State private var loadError = false
+    @Environment(\.appSettings) private var settings
 
     private let persistence: DataStoring
 
@@ -25,7 +26,7 @@ struct HistoryDetailView: View {
     var body: some View {
         Group {
             if let analysis {
-                ResultView(analysis: analysis)
+                ResultView(analysis: analysis, hapticsEnabled: settings.hapticsEnabled)
             } else if loadError {
                 errorContent
             } else {

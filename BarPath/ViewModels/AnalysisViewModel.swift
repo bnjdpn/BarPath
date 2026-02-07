@@ -13,19 +13,24 @@ final class AnalysisViewModel {
     var error: String?
     var analysis: BarPathAnalysis?
     var statusMessage: String = ""
+    // TODO: Sprint 5 - Re-enable paywall
+    // var showPaywall = false
 
     private let videoProcessor: VideoProcessingService
     private let persistence: DataStoring
     private var processingTask: Task<Void, Never>?
+    private var hapticsEnabled: Bool
 
     // MARK: - Initialization
 
     init(
         videoProcessor: VideoProcessingService = VideoProcessingService(),
-        persistence: DataStoring = PersistenceService()
+        persistence: DataStoring = PersistenceService(),
+        hapticsEnabled: Bool = true
     ) {
         self.videoProcessor = videoProcessor
         self.persistence = persistence
+        self.hapticsEnabled = hapticsEnabled
     }
 
     // MARK: - Processing
@@ -39,6 +44,13 @@ final class AnalysisViewModel {
     ///   - calibration: Optional calibration data for real-world unit conversion.
     func processVideo(url: URL, liftType: LiftType, calibration: CalibrationData? = nil) {
         guard !isProcessing else { return }
+
+        // TODO: Sprint 5 - Add purchase gating
+        // let storeManager = StoreKitManager.shared
+        // guard storeManager.canAnalyze else {
+        //     showPaywall = true
+        //     return
+        // }
 
         isProcessing = true
         progress = 0
@@ -94,13 +106,26 @@ final class AnalysisViewModel {
                 try persistence.saveAnalysis(result)
                 progress = 1.0
 
+                // TODO: Sprint 5 - Increment analysis count
+                // StoreKitManager.shared.incrementAnalysisCount()
+
                 analysis = result
                 isProcessing = false
+
+                // Trigger haptic feedback on successful completion
+                if hapticsEnabled {
+                    HapticManager.shared.analysisComplete()
+                }
 
             } catch {
                 guard !Task.isCancelled else { return }
                 self.error = error.localizedDescription
                 isProcessing = false
+
+                // Trigger haptic feedback on error
+                if hapticsEnabled {
+                    HapticManager.shared.errorOccurred()
+                }
             }
         }
     }

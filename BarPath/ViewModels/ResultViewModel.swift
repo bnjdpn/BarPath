@@ -24,14 +24,17 @@ final class ResultViewModel {
     var savedToPhotos = false
 
     private var exportTask: Task<Void, Never>?
+    private var hapticsEnabled: Bool
 
     // MARK: - Initialization
 
     /// Creates a result view model for the given analysis.
     ///
     /// - Parameter analysis: The completed bar path analysis to display.
-    init(analysis: BarPathAnalysis) {
+    /// - Parameter hapticsEnabled: Whether haptic feedback is enabled.
+    init(analysis: BarPathAnalysis, hapticsEnabled: Bool = true) {
         self.analysis = analysis
+        self.hapticsEnabled = hapticsEnabled
     }
 
     // MARK: - Rep Selection
@@ -131,9 +134,19 @@ final class ResultViewModel {
                 if Task.isCancelled { return }
                 exportedVideoURL = url
                 exportState = .exported(url: url)
+
+                // Trigger haptic feedback on successful export
+                if hapticsEnabled {
+                    HapticManager.shared.exportComplete()
+                }
             } catch {
                 if Task.isCancelled { return }
                 exportState = .error(error.localizedDescription)
+
+                // Trigger haptic feedback on error
+                if hapticsEnabled {
+                    HapticManager.shared.errorOccurred()
+                }
             }
         }
         await exportTask?.value
@@ -145,8 +158,18 @@ final class ResultViewModel {
         do {
             try await ExportService.saveToPhotosLibrary(url: url)
             savedToPhotos = true
+
+            // Trigger haptic feedback on successful save
+            if hapticsEnabled {
+                HapticManager.shared.exportComplete()
+            }
         } catch {
             exportState = .error(error.localizedDescription)
+
+            // Trigger haptic feedback on error
+            if hapticsEnabled {
+                HapticManager.shared.errorOccurred()
+            }
         }
     }
 

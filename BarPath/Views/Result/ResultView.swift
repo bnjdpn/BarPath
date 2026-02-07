@@ -13,8 +13,8 @@ struct ResultView: View {
 
     // MARK: - Initialization
 
-    init(analysis: BarPathAnalysis) {
-        _viewModel = State(initialValue: ResultViewModel(analysis: analysis))
+    init(analysis: BarPathAnalysis, hapticsEnabled: Bool = true) {
+        _viewModel = State(initialValue: ResultViewModel(analysis: analysis, hapticsEnabled: hapticsEnabled))
     }
 
     // MARK: - Body

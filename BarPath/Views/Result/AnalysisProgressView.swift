@@ -9,24 +9,28 @@ struct AnalysisProgressView: View {
     let videoURL: URL
     let liftType: LiftType
 
-    @State private var viewModel = AnalysisViewModel()
+    @Environment(\.appSettings) private var settings
     @Environment(\.dismiss) private var dismiss
+
+    @State private var viewModel: AnalysisViewModel?
 
     // MARK: - Body
 
     var body: some View {
         Group {
-            if let analysis = viewModel.analysis {
-                ResultView(analysis: analysis)
-            } else {
-                progressContent
+            if let viewModel {
+                if let analysis = viewModel.analysis {
+                    ResultView(analysis: analysis, hapticsEnabled: settings.hapticsEnabled)
+                } else {
+                    progressContent(viewModel: viewModel)
+                }
             }
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    viewModel.cancelProcessing()
+                    viewModel?.cancelProcessing()
                     dismiss()
                 } label: {
                     Text(NSLocalizedString("cancel", comment: "Cancel button"))
@@ -34,22 +38,34 @@ struct AnalysisProgressView: View {
             }
         }
         .onAppear {
-            viewModel.processVideo(url: videoURL, liftType: liftType)
+            if viewModel == nil {
+                let vm = AnalysisViewModel(hapticsEnabled: settings.hapticsEnabled)
+                viewModel = vm
+                vm.processVideo(url: videoURL, liftType: liftType, calibration: settings.calibrationData)
+            }
         }
+        // TODO: Sprint 5 - Re-enable paywall
+        // .sheet(isPresented: Binding(
+        //     get: { viewModel?.showPaywall ?? false },
+        //     set: { _ in }
+        // )) {
+        //     PaywallView()
+        // }
     }
 
     // MARK: - Progress Content
 
-    private var progressContent: some View {
+    @ViewBuilder
+    private func progressContent(viewModel: AnalysisViewModel) -> some View {
         VStack(spacing: 32) {
             Spacer()
 
-            progressRing
+            progressRing(viewModel: viewModel)
 
-            statusText
+            statusText(viewModel: viewModel)
 
             if let error = viewModel.error {
-                errorView(error)
+                errorView(error, viewModel: viewModel)
             }
 
             Spacer()
@@ -59,7 +75,8 @@ struct AnalysisProgressView: View {
 
     // MARK: - Progress Ring
 
-    private var progressRing: some View {
+    @ViewBuilder
+    private func progressRing(viewModel: AnalysisViewModel) -> some View {
         ZStack {
             // Background ring
             Circle()
@@ -78,18 +95,19 @@ struct AnalysisProgressView: View {
                 .animation(.easeInOut(duration: 0.3), value: viewModel.progress)
 
             // Percentage text
-            Text(percentageText)
+            Text(percentageText(viewModel: viewModel))
                 .font(.system(.title2, design: .rounded))
                 .fontWeight(.bold)
                 .foregroundStyle(.primary)
                 .contentTransition(.numericText())
-                .animation(.easeInOut, value: percentageText)
+                .animation(.easeInOut, value: percentageText(viewModel: viewModel))
         }
     }
 
     // MARK: - Status Text
 
-    private var statusText: some View {
+    @ViewBuilder
+    private func statusText(viewModel: AnalysisViewModel) -> some View {
         VStack(spacing: 8) {
             Text(viewModel.statusMessage)
                 .font(.body)
@@ -105,7 +123,8 @@ struct AnalysisProgressView: View {
 
     // MARK: - Error View
 
-    private func errorView(_ message: String) -> some View {
+    @ViewBuilder
+    private func errorView(_ message: String, viewModel: AnalysisViewModel) -> some View {
         VStack(spacing: 12) {
             Image(systemName: "exclamationmark.triangle")
                 .font(.title2)
@@ -117,7 +136,7 @@ struct AnalysisProgressView: View {
                 .multilineTextAlignment(.center)
 
             Button {
-                viewModel.processVideo(url: videoURL, liftType: liftType)
+                viewModel.processVideo(url: videoURL, liftType: liftType, calibration: settings.calibrationData)
             } label: {
                 Text(NSLocalizedString("retry", comment: "Retry button"))
                     .fontWeight(.medium)
@@ -128,7 +147,7 @@ struct AnalysisProgressView: View {
 
     // MARK: - Helpers
 
-    private var percentageText: String {
+    private func percentageText(viewModel: AnalysisViewModel) -> String {
         "\(Int(viewModel.progress * 100))%"
     }
 }

@@ -18,6 +18,7 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
+            // TODO: Sprint 5 - Add purchaseSection back
             recordingSection
             displaySection
             calibrationSection
@@ -37,6 +38,80 @@ struct SettingsView: View {
             }
         }
     }
+
+    // TODO: Sprint 5 - Re-enable purchase section when StoreKit is implemented
+    /*
+    // MARK: - Purchase Section
+
+    private var purchaseSection: some View {
+        Section {
+            HStack {
+                Text(
+                    NSLocalizedString(
+                        "settings_purchase_status",
+                        comment: "Purchase status label"
+                    )
+                )
+                Spacer()
+                if storeManager.hasLifetimePurchase {
+                    Text(
+                        NSLocalizedString(
+                            "settings_purchased",
+                            comment: "Purchased status"
+                        )
+                    )
+                    .foregroundStyle(.green)
+                } else if storeManager.isInTrial {
+                    let daysRemaining = 7 - (Calendar.current.dateComponents(
+                        [.day],
+                        from: storeManager.getTrialStartDate() ?? Date(),
+                        to: Date()
+                    ).day ?? 0)
+                    Text(
+                        String(
+                            format: NSLocalizedString(
+                                "settings_trial_remaining",
+                                comment: "Trial days remaining"
+                            ),
+                            max(daysRemaining, 0)
+                        )
+                    )
+                    .foregroundStyle(.secondary)
+                } else {
+                    Text(
+                        NSLocalizedString(
+                            "settings_trial_expired",
+                            comment: "Trial expired"
+                        )
+                    )
+                    .foregroundStyle(.orange)
+                }
+            }
+
+            if !storeManager.hasLifetimePurchase {
+                Button {
+                    Task {
+                        await storeManager.restorePurchases()
+                    }
+                } label: {
+                    Text(
+                        NSLocalizedString(
+                            "settings_restore_purchases",
+                            comment: "Restore purchases button"
+                        )
+                    )
+                }
+            }
+        } header: {
+            Text(
+                NSLocalizedString(
+                    "settings_section_purchase",
+                    comment: "Purchase section header"
+                )
+            )
+        }
+    }
+    */
 
     // MARK: - Recording Section
 
@@ -120,6 +195,17 @@ struct SettingsView: View {
                 isOn: Binding(
                     get: { viewModel.settings.showDriftLines },
                     set: { viewModel.updateShowDriftLines($0) }
+                )
+            )
+
+            Toggle(
+                NSLocalizedString(
+                    "settings_haptics_enabled",
+                    comment: "Haptic feedback toggle"
+                ),
+                isOn: Binding(
+                    get: { viewModel.settings.hapticsEnabled },
+                    set: { viewModel.updateHapticsEnabled($0) }
                 )
             )
         } header: {

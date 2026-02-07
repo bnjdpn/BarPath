@@ -1,0 +1,36 @@
+{
+  "identifier" : "Configuration",
+  "nonRenewingSubscriptions" : [],
+  "products" : [
+    {
+      "displayPrice" : "6.99",
+      "familyShareable" : false,
+      "internalID" : "app.barpath.lifetime",
+      "localizations" : [
+        {
+          "description" : "Unlock unlimited analyses, comparison, and coaching",
+          "displayName" : "BarPath Lifetime",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Analyses illimitées, comparaison et coaching",
+          "displayName" : "BarPath à vie",
+          "locale" : "fr_FR"
+        }
+      ],
+      "productID" : "app.barpath.lifetime",
+      "referenceName" : "Lifetime Access",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "12345678",
+    "_developerTeamID" : "767SX34A7Z",
+    "_lastSynchronizedDate" : 712800000.0
+  },
+  "subscriptionGroups" : [],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

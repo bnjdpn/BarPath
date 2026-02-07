@@ -57,6 +57,7 @@ struct AppSettings: Codable, Sendable {
     var autoDetectReps: Bool
     var recordingFPS: RecordingFPS
     var pathColor: PathColorOption
+    var hapticsEnabled: Bool
 
     // MARK: - Initialization
 
@@ -67,7 +68,8 @@ struct AppSettings: Codable, Sendable {
         showDriftLines: Bool = true,
         autoDetectReps: Bool = true,
         recordingFPS: RecordingFPS = .sixty,
-        pathColor: PathColorOption = .velocity
+        pathColor: PathColorOption = .velocity,
+        hapticsEnabled: Bool = true
     ) {
         self.preferredLiftType = preferredLiftType
         self.calibrationData = calibrationData
@@ -76,6 +78,7 @@ struct AppSettings: Codable, Sendable {
         self.autoDetectReps = autoDetectReps
         self.recordingFPS = recordingFPS
         self.pathColor = pathColor
+        self.hapticsEnabled = hapticsEnabled
     }
 
     // MARK: - Defaults

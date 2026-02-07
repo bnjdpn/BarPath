@@ -135,6 +135,17 @@
 "settings_version" = "Version";
 "settings_reset" = "Réinitialiser les réglages";
 "settings_reset_confirm" = "Réinitialiser tous les réglages par défaut ?";
+"settings_haptics_enabled" = "Retour haptique";
+"settings_section_recording" = "Enregistrement";
+"settings_section_display" = "Affichage";
+"settings_section_calibration" = "Calibration";
+"settings_section_about" = "À propos";
+"settings_fps" = "Images par seconde";
+"settings_show_velocity" = "Afficher la vitesse";
+"settings_show_drift" = "Afficher les lignes de dérive";
+"settings_calibration_method" = "Méthode de calibration";
+"settings_reference_value" = "Valeur de référence (m)";
+"settings_reference_placeholder" = "0.00";
 
 /* ──────────────────────────────────────────────
    Path Color Options
@@ -297,3 +308,29 @@
 "result_position" = "Position";
 "result_velocity" = "Vitesse";
 "result_coaching_tips" = "Conseils d'entraînement";
+
+/* ──────────────────────────────────────────────
+   Paywall
+   ────────────────────────────────────────────── */
+
+"paywall_title" = "Débloquer BarPath";
+"paywall_subtitle" = "Obtenez des analyses illimitées et des fonctionnalités avancées";
+"paywall_feature_unlimited" = "Analyses illimitées";
+"paywall_feature_comparison" = "Comparaison côte à côte";
+"paywall_feature_coaching" = "Conseils IA";
+"paywall_feature_export" = "Exporter vers Photos";
+"paywall_purchase_button" = "Acheter pour %@";
+"paywall_restore" = "Restaurer les achats";
+"paywall_product_unavailable" = "Produit indisponible";
+
+/* ──────────────────────────────────────────────
+   Purchase & Settings Extensions
+   ────────────────────────────────────────────── */
+
+"settings_purchase_status" = "Statut d'achat";
+"settings_trial_remaining" = "%d jours restants";
+"settings_purchased" = "Accès à vie";
+"settings_restore_purchases" = "Restaurer les achats";
+"settings_section_purchase" = "Achat";
+"settings_trial_expired" = "Essai expiré";
+"status_analyzing_frames" = "Analyse des images...";

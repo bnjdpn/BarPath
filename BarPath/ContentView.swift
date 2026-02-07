@@ -3,11 +3,16 @@ import SwiftUI
 /// Root view providing the NavigationStack and managing app-level navigation.
 struct ContentView: View {
 
+    // MARK: - Properties
+
+    @State private var settings = PersistenceService().loadSettings()
+
     // MARK: - Body
 
     var body: some View {
         NavigationStack {
             HomeView()
+                .environment(\.appSettings, settings)
                 .navigationDestination(for: NavigationDestination.self) { destination in
                     switch destination {
                     case .record:

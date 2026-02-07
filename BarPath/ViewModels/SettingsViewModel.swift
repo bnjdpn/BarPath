@@ -69,6 +69,14 @@ final class SettingsViewModel {
         save()
     }
 
+    // MARK: - Haptics Settings
+
+    /// Toggles haptic feedback.
+    func updateHapticsEnabled(_ enabled: Bool) {
+        settings.hapticsEnabled = enabled
+        save()
+    }
+
     // MARK: - Persistence
 
     /// Persists the current settings to storage.

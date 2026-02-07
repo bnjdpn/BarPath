@@ -114,3 +114,18 @@ extension Color {
         }
     }
 }
+
+// MARK: - Environment Extensions
+
+/// Environment key for app settings.
+private struct AppSettingsKey: EnvironmentKey {
+    static let defaultValue = AppSettings.default
+}
+
+extension EnvironmentValues {
+    /// Access app settings from the environment.
+    var appSettings: AppSettings {
+        get { self[AppSettingsKey.self] }
+        set { self[AppSettingsKey.self] = newValue }
+    }
+}

@@ -6,21 +6,41 @@ struct RecordView: View {
 
     // MARK: - Properties
 
-    @State private var viewModel = RecordViewModel()
+    @Environment(\.appSettings) private var settings
     @Environment(\.dismiss) private var dismiss
+
+    @State private var viewModel: RecordViewModel?
 
     // MARK: - Body
 
     var body: some View {
+        Group {
+            if let viewModel {
+                content(viewModel: viewModel)
+            }
+        }
+        .onAppear {
+            if viewModel == nil {
+                viewModel = RecordViewModel(
+                    preferredLiftType: settings.preferredLiftType,
+                    recordingFPS: settings.recordingFPS,
+                    hapticsEnabled: settings.hapticsEnabled
+                )
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func content(viewModel: RecordViewModel) -> some View {
         ZStack {
             // Camera preview fills the entire screen.
             CameraPreviewView(session: viewModel.captureSession)
                 .ignoresSafeArea()
 
             VStack {
-                topControls
+                topControls(viewModel: viewModel)
                 Spacer()
-                bottomControls
+                bottomControls(viewModel: viewModel)
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -41,28 +61,36 @@ struct RecordView: View {
         .onDisappear {
             viewModel.tearDown()
         }
-        .navigationDestination(item: $viewModel.recordedVideoURL) { url in
+        .navigationDestination(item: Binding(
+            get: { viewModel.recordedVideoURL },
+            set: { _ in }
+        )) { url in
             AnalysisProgressView(videoURL: url, liftType: viewModel.selectedLiftType)
         }
     }
 
     // MARK: - Top Controls
 
-    private var topControls: some View {
+    @ViewBuilder
+    private func topControls(viewModel: RecordViewModel) -> some View {
         VStack(spacing: 12) {
             if viewModel.isRecording {
-                durationDisplay
+                durationDisplay(viewModel: viewModel)
             }
 
-            LiftTypePicker(selectedLiftType: $viewModel.selectedLiftType)
-                .padding(.horizontal)
+            LiftTypePicker(selectedLiftType: Binding(
+                get: { viewModel.selectedLiftType },
+                set: { _ in }
+            ))
+            .padding(.horizontal)
         }
         .padding(.top, 8)
     }
 
     // MARK: - Duration Display
 
-    private var durationDisplay: some View {
+    @ViewBuilder
+    private func durationDisplay(viewModel: RecordViewModel) -> some View {
         HStack(spacing: 6) {
             Circle()
                 .fill(.red)
@@ -81,16 +109,18 @@ struct RecordView: View {
 
     // MARK: - Bottom Controls
 
-    private var bottomControls: some View {
+    @ViewBuilder
+    private func bottomControls(viewModel: RecordViewModel) -> some View {
         VStack(spacing: 20) {
-            recordButton
+            recordButton(viewModel: viewModel)
                 .padding(.bottom, 40)
         }
     }
 
     // MARK: - Record Button
 
-    private var recordButton: some View {
+    @ViewBuilder
+    private func recordButton(viewModel: RecordViewModel) -> some View {
         Button {
             if viewModel.isRecording {
                 viewModel.stopRecording()
