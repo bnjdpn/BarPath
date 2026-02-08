@@ -1,4 +1,4 @@
-git_url("https://github.com/bnjdpn/BarPath.git")
+git_url("https://github.com/bnjdpn/LoadSense.git")
 git_branch("certificates")
 storage_mode("git")
 type("appstore")
