@@ -1,25 +1,11 @@
 # Local verification
 
-Hosted CI was removed for Studio #469. Native checks run on the Mac with a
-reserved iPhone simulator. The project is `BarPath.xcodeproj`; its shared
-scheme is `BarPath`.
+Studio config/ci.json runs `.github/check-local` at the PR SHA through
+`bin/studio-ci bnjdpn/BarPath <sha>`. Reserve an iPhone simulator first and
+pass SCEO_SIM_UDID through the environment. The script builds the app and
+tests, then runs the tests using its own temporary DerivedData directory.
 
-After reserving the device and a task-owned DerivedData directory:
-
-```sh
-: "${SCEO_SIM_UDID:?Reserve a simulator first}"
-: "${QA_DERIVED_DATA:?Use a task-owned directory}"
-xcodebuild -project BarPath.xcodeproj -scheme BarPath \
-  -destination "platform=iOS Simulator,id=$SCEO_SIM_UDID" \
-  -derivedDataPath "$QA_DERIVED_DATA" \
-  -parallel-testing-enabled NO -maximum-concurrent-test-simulator-destinations 1 \
-  CODE_SIGNING_ALLOWED=NO build-for-testing
-xcodebuild -project BarPath.xcodeproj -scheme BarPath \
-  -destination "platform=iOS Simulator,id=$SCEO_SIM_UDID" \
-  -derivedDataPath "$QA_DERIVED_DATA" \
-  -parallel-testing-enabled NO -maximum-concurrent-test-simulator-destinations 1 \
-  CODE_SIGNING_ALLOWED=NO test-without-building
-```
-
-No build or native test was run by this workflow-only change. Local CI
-registration remains a separate operation.
+The hosted cache and artifact upload are omitted because the local CI keeps
+its log and runs on the Mac. They are not validation gates.
+No native check was executed during Studio #469 corrections because the
+simulator is reserved by #431. Tech must obtain studio/ci success before merge.
